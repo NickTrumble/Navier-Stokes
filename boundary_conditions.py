@@ -1,10 +1,10 @@
 import numpy as np
 
 #reset boundaries
-def boundary_check(u):
-    u[0, :] = 0
-    u[:, 0] = 0
-    u[-1, :] = 0
-    u[:, -1] = 0
+def boundary_check(field):
+    field[0, :] = 0
+    field[:, 0] = 0
+    field[-1, :] = 0
+    field[:, -1] = 0
     
-    return u
+    return field
