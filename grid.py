@@ -14,3 +14,7 @@ def create_random(size):
     v = np.random.random((size, size)) * 2 - 1
     p = np.zeros((size, size))
     return (u, v, p)
+
+def create_dye(size):
+    dye = np.zeros((size, size))
+    return dye

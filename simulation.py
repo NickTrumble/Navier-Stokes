@@ -2,8 +2,7 @@ import numpy as np
 import math
 from boundary_conditions import *
 
-def start_simulation(u, v, p):
-    visc = 0.1
+def start_simulation(u, v, p, visc = 0.1):
     timestep = get_timestep(u, v, visc) #placeholder (replace with get_timestep(...))
 
 
@@ -15,8 +14,33 @@ def start_simulation(u, v, p):
     u_proj = boundary_velocity(u_proj)
     v_proj = boundary_velocity(v_proj)
 
-    print(np.max(get_divergence(u_proj, v_proj)))
+    #print(np.max(get_divergence(u_proj, v_proj)))
     return (u_proj, v_proj, p)
+
+def sim_dye(dye, u, v, timestep, visc):
+    size = dye.shape[0]
+    dx = 1 / (size - 1)
+
+    y, x = np.meshgrid(np.arange(size), np.arange(size), indexing='ij')
+    x_prev = x - u * timestep / dx
+    y_prev = y - v * timestep / dx
+
+    x_prev = np.clip(x_prev, 0, size - 2)
+    y_prev = np.clip(y_prev, 0, size - 2)
+
+    xi = np.floor(x_prev).astype(int)
+    yi = np.floor(y_prev).astype(int)
+
+    xf = x_prev - xi
+    yf = y_prev - yi
+
+    dye_top = (1 - xf) * dye[yi, xi] + xf * dye[yi, xi + 1]
+    dye_bottom = (1 - xf) * dye[yi + 1, xi] + xf * dye[yi + 1, xi + 1]
+    return diffuse_dye((1 - yf) * dye_top + yf * dye_bottom, timestep, visc)
+
+def diffuse_dye(dye, timestep, visc):
+    return dye + get_laplacian(dye) * timestep * visc
+
 
 #returns array of previous velocities
 def apply_advection(u, v, timestep):
@@ -49,7 +73,6 @@ def get_interpolated_vel(u, v, x_prev, y_prev):
     #interpolate between top and bottom
     u_star = (1 - yf) * u_top + yf * u_bottom
     v_star = (1 - yf) * v_top + yf * v_bottom
-
 
     return (u_star, v_star)
 
