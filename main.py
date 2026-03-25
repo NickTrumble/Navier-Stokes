@@ -46,7 +46,7 @@ def sim(u, v, p):
         im = ax.quiver(X, Y, u, v)
         ax.set_title(f'Velocity field, step: {i}')
 
-        plt.pause(0.1)
+        plt.pause(0.03)
     plt.ioff()
     plt.show()
 
