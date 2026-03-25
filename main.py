@@ -6,7 +6,7 @@ from simulation import start_simulation
 #first, generate environment
 
 #define global variables
-SIZE = 20 #50x50
+SIZE = 50 #50x50
 
 
 #velocity fields
@@ -33,7 +33,7 @@ def plot_pressure():
 def sim(u, v, p):
     plt.ion()
     fig, ax = plt.subplots()
-    for i in range(100):
+    for i in range(1000):
         (u, v, p) = start_simulation(u, v, p)
         
         ax.clear()
@@ -46,7 +46,7 @@ def sim(u, v, p):
         im = ax.quiver(X, Y, u, v)
         ax.set_title(f'Velocity field, step: {i}')
 
-        plt.pause(0.03)
+        plt.pause(0.001)
     plt.ioff()
     plt.show()
 
