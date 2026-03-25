@@ -162,3 +162,4 @@ def get_timestep(u, v, visc):
     diffusion = min(advection, dx ** 2 / (4 * visc))
 
     return C * diffusion
+

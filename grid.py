@@ -10,7 +10,7 @@ def create_grid(size):
 
 #testing
 def create_random(size):
-    u = np.random.random((size, size))
-    v = np.random.random((size, size))
-    p = np.random.random((size, size))
+    u = np.random.random((size, size)) * 2 - 1
+    v = np.random.random((size, size)) * 2 - 1
+    p = np.zeros((size, size))
     return (u, v, p)
